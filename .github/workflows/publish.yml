@@ -48,7 +48,12 @@ jobs:
     name: Build and publish Python package (${{ matrix.os }})
     timeout-minutes: 10
     runs-on: ${{ matrix.os }}
-    if: ${{ inputs.build_wheels && inputs[format('{0}', matrix.build_flag)] }}
+    if: |
+      inputs.build_wheels == true && (
+        (matrix.os == 'ubuntu-latest' && inputs.build_linux == true) ||
+        (matrix.os == 'macos-latest' && inputs.build_macos == true) ||
+        (matrix.os == 'windows-latest' && inputs.build_windows == true)
+      )
 
     steps:
       - name: Checkout code
