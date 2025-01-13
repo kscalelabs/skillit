@@ -29,7 +29,7 @@ setup(
     version=version,
     description="A package that lets you chef up new skills for KOS-compatible robots",
     author="Wesley Maa",
-    url="https///github.com/kscalelabs/skillit",
+    url="https://github.com/kscalelabs/skillit",
     long_description=long_description,
     long_description_content_type="text/markdown",
     python_requires=">=3.11",
