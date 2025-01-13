@@ -7,22 +7,22 @@ on:
     inputs:
       build_wheels:
         description: 'Build platform-specific wheels'
-        required: true
+        required: false
         default: 'false'
         type: boolean
       build_linux:
         description: 'Build Linux wheels'
-        required: true
+        required: false
         default: 'true'
         type: boolean
       build_macos:
         description: 'Build macOS wheels'
-        required: true
+        required: false
         default: 'true'
         type: boolean
       build_windows:
         description: 'Build Windows wheels'
-        required: true
+        required: false
         default: 'false'
         type: boolean
 
