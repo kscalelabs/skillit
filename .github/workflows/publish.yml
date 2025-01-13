@@ -7,22 +7,22 @@ on:
     inputs:
       build_wheels:
         description: 'Build platform-specific wheels'
-        required: false
+        required: true
         default: 'false'
         type: boolean
       build_linux:
         description: 'Build Linux wheels'
-        required: false
+        required: true
         default: 'true'
         type: boolean
       build_macos:
         description: 'Build macOS wheels'
-        required: false
+        required: true
         default: 'true'
         type: boolean
       build_windows:
         description: 'Build Windows wheels'
-        required: false
+        required: true
         default: 'false'
         type: boolean
 
@@ -48,7 +48,7 @@ jobs:
     name: Build and publish Python package (${{ matrix.os }})
     timeout-minutes: 10
     runs-on: ${{ matrix.os }}
-    if: inputs.build_wheels && inputs[matrix.build_flag]
+    if: ${{ inputs.build_wheels && inputs[format('{0}', matrix.build_flag)] }}
 
     steps:
       - name: Checkout code
