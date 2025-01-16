@@ -2,7 +2,8 @@ import pykos
 import csv
 import time
 # print('reached')
-kos = pykos.KOS(ip='10.33.13.110')
+# kos = pykos.KOS(ip='10.33.13.110')
+kos = pykos.KOS(ip='192.168.42.1')
 # print("reached2")
 
 
@@ -126,9 +127,21 @@ def prostate():
 
     kos.actuator.command_actuators([{"actuator_id": body['l_hamstring'], "position": 10}, {"actuator_id": body['r_hamstring'], "position": -26}])
 
+    time.sleep(2.5)
+
+    kos.actuator.command_actuators([{"actuator_id": body['l_hamstring'], "position": -38}, {"actuator_id": body['r_hamstring'], "position": 44}])
+
     time.sleep(1)
 
-    kos.actuator.command_actuators([{"actuator_id": body['l_hamstring'], "position": -40}, {"actuator_id": body['r_hamstring'], "position": 14}])
+    kos.actuator.command_actuators([{"actuator_id": body['l_shoulder'], "position": 5}])
+
+    parameters['l_rotator']['kp'] = 15
+    parameters['r_rotator']['kp'] = 15
+
+    configure_motors(parameters, body)
+
+    kos.actuator.command_actuators([{"actuator_id": body['l_rotator'], "position": -70.876953125}, {"actuator_id": body['r_rotator'], "position": 70.240234375}])
+
 
     # kos.actuator.command_actuators([{"actuator_id": body['l_shoulder'], "position": -45}, {"actuator_id": body['r_shoulder'], "position": 40}])
 
