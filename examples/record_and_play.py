@@ -1,3 +1,5 @@
+"""Example script for recording and playing back skills."""
+
 from skillit.play import FramePlayer
 from skillit.record import SkillRecorder
 
