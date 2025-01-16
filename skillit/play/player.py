@@ -8,7 +8,7 @@ import pykos
 
 
 class FramePlayer:
-    def __init__(self, ip: str, joint_name_to_id: dict[str, int]):
+    def __init__(self, ip: str, joint_name_to_id: dict[str, int]) -> None:
         """Initialize the frame player.
 
         Args:

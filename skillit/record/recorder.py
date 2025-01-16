@@ -5,6 +5,7 @@ import signal
 import sys
 import time
 from datetime import datetime
+from types import FrameType
 from typing import Any
 
 import pykos
@@ -18,7 +19,7 @@ class SkillRecorder:
         frequency: int = 20,
         countdown: int = 3,
         skill_name: str | None = None,
-    ):
+    ) -> None:
         """Initialize the recorder.
 
         Args:
@@ -51,7 +52,7 @@ class SkillRecorder:
     def setup_signal_handler(self) -> None:
         signal.signal(signal.SIGINT, self.handle_sigint)
 
-    def handle_sigint(self, signum: int, frame: Any) -> None:
+    def handle_sigint(self, signum: int, frame: FrameType | None) -> None:
         if not self.recording:
             print("\nStarting countdown...")
             self._start_recording()
