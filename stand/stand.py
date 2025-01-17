@@ -2,7 +2,7 @@ import pykos
 import csv
 import time
 # print('reached')
-# kos = pykos.KOS(ip='10.33.13.110')
+# kos = pykos.KOS(ip='10.33.13.166')
 kos = pykos.KOS(ip='192.168.42.1')
 # print("reached2")
 
@@ -113,23 +113,25 @@ def prostate():
     # kos.actuator.command_actuators([{"actuator_id": body['r_shoulder'], "position": -157}, {"actuator_id": body['r_rotator'], "position": -70}])
     kos.actuator.command_actuators([{"actuator_id": body['l_ankle'], "position": 100}, {"actuator_id" : body['l_knee'], 'position' : 100}])
     kos.actuator.command_actuators([{"actuator_id": body['r_ankle'], "position": -100}, {'actuator_id': body['r_knee'], "position": -100}])
-    time.sleep(4)
+    time.sleep(2)
     # The two lines above deal with folding in the legs for the purpose of getting to the standing up state
 
-    kos.actuator.command_actuators([{"actuator_id": body['l_rotator'], "position": -20}, {"actuator_id": body['r_rotator'], "position": 20}])
-    kos.actuator.command_actuators([{"actuator_id": body['l_thigh'], "position": -62}, {"actuator_id": body['r_thigh'], "position": 59}])
-
-    time.sleep(2)
-
+    # kos.actuator.command_actuators([{"actuator_id": body['l_rotator'], "position": -20}, {"actuator_id": body['r_rotator'], "position": 20}])
     kos.actuator.command_actuators([{"actuator_id": body['l_rotator'], "position": -45}, {"actuator_id": body['r_rotator'], "position": 42}])
 
-    time.sleep(2)
+    kos.actuator.command_actuators([{"actuator_id": body['l_thigh'], "position": -62}, {"actuator_id": body['r_thigh'], "position": 59}])
+
+    time.sleep(3)
+
+    # kos.actuator.command_actuators([{"actuator_id": body['l_rotator'], "position": -45}, {"actuator_id": body['r_rotator'], "position": 42}])
+
+    # time.sleep(2)
 
     kos.actuator.command_actuators([{"actuator_id": body['l_hamstring'], "position": 10}, {"actuator_id": body['r_hamstring'], "position": -26}])
 
     time.sleep(2.5)
 
-    kos.actuator.command_actuators([{"actuator_id": body['l_hamstring'], "position": -38}, {"actuator_id": body['r_hamstring'], "position": 44}])
+    kos.actuator.command_actuators([{"actuator_id": body['l_hamstring'], "position": -23}, {"actuator_id": body['r_hamstring'], "position":29}])
 
     time.sleep(1)
 
@@ -143,15 +145,18 @@ def prostate():
     kos.actuator.command_actuators([{"actuator_id": body['l_rotator'], "position": -70.876953125}, {"actuator_id": body['r_rotator'], "position": 70.240234375}])
 
 
-    # kos.actuator.command_actuators([{"actuator_id": body['l_shoulder'], "position": -45}, {"actuator_id": body['r_shoulder'], "position": 40}])
+    kos.actuator.command_actuators([{"actuator_id": body['l_shoulder'], "position": -45}, {"actuator_id": body['r_shoulder'], "position": 40}])
 
     # time.sleep(0.5)
 
     # kos.actuator.command_actuators([{"actuator_id": body['l_rotator'], "position": -86}, {"actuator_id": body['r_rotator'], "position": 80}])
     # kos.actuator.command_actuators([{"actuator_id": body['l_shoulder'], "position" : -20}], {"actuator_id": body['r_shoulder'], 'position': 39})
 
-    # kos.actuator.command_actuators([{"actuator_id": body['l_hip'], "position": 50}, {"actuator_id": body['r_hip'], "position": -48}])
+    kos.actuator.command_actuators([{"actuator_id": body['l_hip'], "position": 30}, {"actuator_id": body['r_hip'], "position": -28}])
 
+    kos.actuator.command_actuators([{"actuator_id" : body['l_rotator'], 'position' : 0}, {"actuator_id" : body['r_rotator'], 'position' : 0}])
+
+    kos.actuator.command_actuators([{"actuator_id": body['l_thigh'], "position": -62}, {"actuator_id": body['l_hip'], "position":-5}, {"actuator_id": body['l_hamstring'], "position": 15}])
     # parameters['l_rotator']['kp'] = 140
     # parameters['r_rotator']['kp'] = 140
 

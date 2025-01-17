@@ -22,7 +22,7 @@ body = {
     'r_hip' : 5
 }
 
-# kos = pykos.KOS(ip='10.33.13.110')
+# kos = pykos.KOS(ip='10.33.13.166')
 kos = pykos.KOS(ip='192.168.42.1')
 # File to store data
 
