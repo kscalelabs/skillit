@@ -1,28 +1,25 @@
-
-import matplotlib.pyplot as plt
 import csv
 import os
 
-
-
+import matplotlib.pyplot as plt
 
 body = {
-    'l_shoulder' : 14,
-    'l_rotator' : 15,
-    'l_elbow' : 16,
-    'r_shoulder' : 13,
-    'r_elbow' : 11,
-    'r_rotator' : 12,
-    'l_ankle' : 6,
-    'l_knee' : 7,
-    'l_thigh' : 8,
-    'l_hamstring' : 9,
-    'l_hip' : 10,
-    'r_ankle' : 1,
-    'r_knee' : 2,
-    'r_thigh' : 3,
-    'r_hamstring' : 4,
-    'r_hip' : 5
+    "l_shoulder": 14,
+    "l_rotator": 15,
+    "l_elbow": 16,
+    "r_shoulder": 13,
+    "r_elbow": 11,
+    "r_rotator": 12,
+    "l_ankle": 6,
+    "l_knee": 7,
+    "l_thigh": 8,
+    "l_hamstring": 9,
+    "l_hip": 10,
+    "r_ankle": 1,
+    "r_knee": 2,
+    "r_thigh": 3,
+    "r_hamstring": 4,
+    "r_hip": 5,
 }
 # # List of CSV files to plot
 # csv_files = ["file1.csv", "file2.csv", "file3.csv"]
@@ -34,7 +31,7 @@ body = {
 # for csv_file in csv_files:
 #     timestamps = []
 #     values = []
-    
+
 #     # Check if the file exists
 #     if not os.path.exists(csv_file):
 #         print(f"File not found: {csv_file}")
@@ -62,11 +59,9 @@ body = {
 # plt.show()
 
 
-
-
+import csv
 
 import matplotlib.pyplot as plt
-import csv
 
 # File to read from
 
@@ -89,9 +84,8 @@ for part in body:
     plt.figure(figsize=(10, 5))
     plt.plot(timestamps, values, label="Streaming Data", color="blue")
     plt.xlabel("Timestamp")
-    plt.ylabel("Position") 
+    plt.ylabel("Position")
     plt.title("Data from " + part)
     plt.legend()
     plt.grid(True)
     plt.show()
-

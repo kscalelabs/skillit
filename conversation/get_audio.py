@@ -19,7 +19,7 @@
 #         # Step 1: Record audio
 #         print(f"Recording for {duration} seconds from device {record_device_id}, channel {channels}...")
 #         print(f"开始录音，从设备 {record_device_id} 的通道 {channels} 录制 {duration} 秒...")
-#         audio_data = sd.rec(frames=int(duration * samplerate), samplerate=samplerate, 
+#         audio_data = sd.rec(frames=int(duration * samplerate), samplerate=samplerate,
 #                             channels=len(channels), device=record_device_id, dtype='float32', mapping=channels)
 #         sd.wait()  # Wait until recording is finished 等待录音完成
 #         print("Recording finished.")
@@ -59,59 +59,62 @@
 #     main(args.duration)
 
 
+import argparse
+
 import sounddevice as sd
 import soundfile as sf
-import argparse
 
 # Default parameters
 DEFAULT_DURATION = 5
 
+
 def main(duration):
     # File to store the recorded audio
     output_file = "recorded_audio.wav"
-    
+
     # Device parameters
     record_device_id = 0
     playback_device_id = 1
     channels = [2]
-    
+
     # Get the default sample rate of your recording device
     device_info = sd.query_devices(record_device_id)
-    samplerate = int(device_info['default_samplerate'])
-    
+    samplerate = int(device_info["default_samplerate"])
+
     try:
         # Step 1: Record audio
         print(f"Recording for {duration} seconds from device {record_device_id}, channel {channels}...")
         print(f"Using sample rate: {samplerate} Hz")
-        
-        audio_data = sd.rec(frames=int(duration * samplerate), 
-                          samplerate=samplerate,
-                          channels=len(channels), 
-                          device=record_device_id, 
-                          dtype='float32', 
-                          mapping=channels)
-        
+
+        audio_data = sd.rec(
+            frames=int(duration * samplerate),
+            samplerate=samplerate,
+            channels=len(channels),
+            device=record_device_id,
+            dtype="float32",
+            mapping=channels,
+        )
+
         sd.wait()
         print("Recording finished.")
-        
+
         # Save the recorded audio to a WAV file
         sf.write(output_file, audio_data, samplerate)
         print(f"Audio saved to {output_file}")
-        
+
         # Step 2: Play back the recorded audio
         print(f"Playing back on device {playback_device_id}...")
         data, samplerate = sf.read(output_file)
         sd.play(data, samplerate=samplerate, device=playback_device_id)
         sd.wait()
         print("Playback finished.")
-        
+
     except Exception as e:
         print(f"An error occurred: {e}")
 
+
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(
-        description="Record and play back audio with adjustable duration."
-    )
+    parser = argparse.ArgumentParser(description="Record and play back audio with adjustable duration.")
     parser.add_argument(
         "--duration",
         type=int,

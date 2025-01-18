@@ -43,8 +43,9 @@ push-to-pypi: build-for-pypi
 py-files := $(shell find . -name '*.py')
 
 format:
-	@black $(py-files)
-	@ruff format $(py-files)
+	black .
+	isort .
+	ruff format .
 .PHONY: format
 
 static-checks:

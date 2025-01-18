@@ -1,9 +1,11 @@
+import argparse
+
 import sounddevice as sd
 import soundfile as sf
-import argparse
 
 # Default parameters
 DEFAULT_DURATION = 5  # Default duration in seconds 默认录音时长（秒）
+
 
 def main(duration):
     # File to store the recorded audio
@@ -19,8 +21,14 @@ def main(duration):
         # Step 1: Record audio
         print(f"Recording for {duration} seconds from device {record_device_id}, channel {channels}...")
         print(f"开始录音，从设备 {record_device_id} 的通道 {channels} 录制 {duration} 秒...")
-        audio_data = sd.rec(frames=int(duration * samplerate), samplerate=samplerate, 
-                            channels=len(channels), device=record_device_id, dtype='float32', mapping=channels)
+        audio_data = sd.rec(
+            frames=int(duration * samplerate),
+            samplerate=samplerate,
+            channels=len(channels),
+            device=record_device_id,
+            dtype="float32",
+            mapping=channels,
+        )
         sd.wait()  # Wait until recording is finished 等待录音完成
         print("Recording finished.")
         print("录音完成。")
@@ -32,6 +40,7 @@ def main(duration):
     except Exception as e:
         print(f"An error occurred: {e}")
         print(f"发生错误：{e}")
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(

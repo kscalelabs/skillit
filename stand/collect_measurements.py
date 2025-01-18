@@ -1,33 +1,33 @@
 import csv
 import random
 import time
+
 import pykos
 
 body = {
-    'l_shoulder' : 14,
-    'l_rotator' : 15,
-    'l_elbow' : 16,
-    'r_shoulder' : 13,
-    'r_elbow' : 11,
-    'r_rotator' : 12,
-    'l_ankle' : 6,
-    'l_knee' : 7,
-    'l_thigh' : 8,
-    'l_hamstring' : 9,
-    'l_hip' : 10,
-    'r_ankle' : 1,
-    'r_knee' : 2,
-    'r_thigh' : 3,
-    'r_hamstring' : 4,
-    'r_hip' : 5
+    "l_shoulder": 14,
+    "l_rotator": 15,
+    "l_elbow": 16,
+    "r_shoulder": 13,
+    "r_elbow": 11,
+    "r_rotator": 12,
+    "l_ankle": 6,
+    "l_knee": 7,
+    "l_thigh": 8,
+    "l_hamstring": 9,
+    "l_hip": 10,
+    "r_ankle": 1,
+    "r_knee": 2,
+    "r_thigh": 3,
+    "r_hamstring": 4,
+    "r_hip": 5,
 }
 
 # kos = pykos.KOS(ip='10.33.13.166')
-kos = pykos.KOS(ip='192.168.42.1')
+kos = pykos.KOS(ip="192.168.42.1")
 # File to store data
 
 for part in body:
-
     filename = part + ".csv"
 
     # Initialize the CSV file
@@ -39,10 +39,9 @@ for part in body:
 try:
     initial_time = time.time()
     while True:
-
         for part in body:
-        # Simulate data coming in
-            timestamp = time.time() - initial_time # Current timestamp
+            # Simulate data coming in
+            timestamp = time.time() - initial_time  # Current timestamp
             value = kos.actuator.get_actuators_state([body[part]])[0].position
             # value = 0
             filename = part + ".csv"
@@ -52,6 +51,6 @@ try:
                 writer.writerow([timestamp, value])
 
         print(f"Stored: {timestamp}, {value}")
-        time.sleep(.01)  # Simulate data rate
+        time.sleep(0.01)  # Simulate data rate
 except KeyboardInterrupt:
     print("Stopped data collection.")

@@ -1,7 +1,5 @@
 # requirements-dev.txt
 
-black
-darglint
-mypy
-pytest
-ruff
+black>=24.1.1
+isort>=5.13.2
+ruff>=0.2.1
