@@ -2,6 +2,9 @@
 
 A package that lets you chef up new skills for KOS-compatible robots
 
+> ⚠️ **Warning**  
+ This package is under development and currently only supports joint playback.
+
 ## Installation
 
 ```bash
