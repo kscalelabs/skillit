@@ -1,4 +1,3 @@
-import subprocess
 import time
 
 from openai import OpenAI
