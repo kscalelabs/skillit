@@ -11,3 +11,9 @@ pip install skillit
 ## Examples
 
 See the [examples](examples) directory for examples of how to use skillit.
+
+## Format
+
+```
+ruff format .
+```
