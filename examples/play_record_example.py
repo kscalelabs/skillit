@@ -1,5 +1,7 @@
 """Example of recording and playing back a skill."""
 
+import argparse
+
 from skillit.play import FramePlayer
 from skillit.record import SkillRecorder
 
@@ -65,9 +67,7 @@ def play_skill(ip: str, filename: str) -> None:
     player.play(filename)
 
 
-if __name__ == "__main__":
-    import argparse
-
+def main() -> None:
     parser = argparse.ArgumentParser(description="Record or play robot movements")
     parser.add_argument("action", choices=["record", "play"], help="Action to perform")
     parser.add_argument("--ip", default="localhost", help="IP address of the robot")
@@ -81,3 +81,8 @@ if __name__ == "__main__":
         if not args.file:
             parser.error("--file is required for play action")
         play_skill(ip=args.ip, filename=args.file)
+
+
+if __name__ == "__main__":
+    # python -m examples.play_record_example
+    main()
