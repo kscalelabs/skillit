@@ -4,23 +4,50 @@ from skillit.play import FramePlayer
 from skillit.record import SkillRecorder
 
 # Example joint name to ID mapping for the robot (needed to record and play skills)
-joint_name_to_id = {
-    "right_ankle_pitch": 1,
-    "right_knee_pitch": 2,
-    "right_hip_pitch": 3,
-    "right_hip_roll": 4,
-    "right_hip_yaw": 5,
-    "left_ankle_pitch": 6,
-    "left_knee_pitch": 7,
-    "left_hip_pitch": 8,
-    "left_hip_roll": 9,
-    "left_hip_yaw": 10,
-    "right_elbow": 11,
-    "right_shoulder_pitch": 12,
-    "right_shoulder_roll": 13,
-    "left_elbow": 16,
-    "left_shoulder_pitch": 15,
-    "left_shoulder_roll": 14,
+# joint_name_to_id = {
+#     "right_ankle_pitch": 1,
+#     "right_knee_pitch": 2,
+#     "right_hip_pitch": 3,
+#     "right_hip_roll": 4,
+#     "right_hip_yaw": 5,
+#     "left_ankle_pitch": 6,
+#     "left_knee_pitch": 7,
+#     "left_hip_pitch": 8,
+#     "left_hip_roll": 9,
+#     "left_hip_yaw": 10,
+#     "right_elbow": 11,
+#     "right_shoulder_pitch": 12,
+#     "right_shoulder_roll": 13,
+#     "left_elbow": 16,
+#     "left_shoulder_pitch": 15,
+#     "left_shoulder_roll": 14,
+# }
+
+joint_name_to_id: dict[str, int] = {
+        # Left arm
+        "L_shoulder_y_03": 11,
+        "L_shoulder_x_03": 12,
+        "L_shoulder_z_02": 13,
+        "L_elbow_02": 14,
+        "L_wrist_02": 15,
+        # Right arm
+        "R_shoulder_y_03": 21,
+        "R_shoulder_x_03": 22,
+        "R_shoulder_z_02": 23,
+        "R_elbow_02": 24,
+        "R_wrist_02": 25,
+        # Left leg
+        "L_hip_y_04": 31,
+        "L_hip_x_03": 32,
+        "L_hip_z_03": 33,
+        "L_knee_04": 34,
+        "L_ankle_02": 35,
+        # Right leg
+        "R_hip_y_04": 41,
+        "R_hip_x_03": 42,
+        "R_hip_z_03": 43,
+        "R_knee_04": 44,
+        "R_ankle_02": 45
 }
 
 
@@ -59,6 +86,10 @@ def play_skill(ip: str, filename: str) -> None:
     """
     # Initialize the player with robot IP and joint mapping
     player = FramePlayer(ip=ip, joint_name_to_id=joint_name_to_id)
+
+    # Configure actuators
+    for _, joint_id in joint_name_to_id.items():
+        player.ac.configure_actuator(actuator_id=joint_id, kp=100, kd=1, torque_enabled=True)
 
     # Play back the recorded movements
     print(f"Playing back skill from {filename}")
