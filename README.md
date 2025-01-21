@@ -3,9 +3,8 @@
 A package that lets you chef up new skills for KOS-compatible robots
 
 > ⚠️ **Warning**  
- This package is under development and currently only supports joint playback.
+ This package is under development and currently only supports joint skills.
 
- For hackathon purposes, we've added a few recipe scripts in the [recipes](skillit/recipes) directory. They are not a good example of making modules. Instead, see the [play](skillit/play/) and [record](skillit/record) modules in the skillit package (`skillit/skillit`).
 
 ## Installation
 
