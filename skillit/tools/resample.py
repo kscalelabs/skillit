@@ -91,7 +91,7 @@ def downsample_skill(
         countdown=data.countdown,
         timestamp=data.timestamp,
         joint_name_to_id=data.joint_name_to_id,
-        frames=new_frames
+        frames=new_frames,
     )
 
     return new_data
@@ -105,16 +105,8 @@ def main() -> None:
 
     parser = argparse.ArgumentParser(description="Resample a recorded skill")
     parser.add_argument("filename", help="Path to the skill JSON file")
-    parser.add_argument(
-        "--speed-factor",
-        type=float,
-        help="Speed factor (e.g., 1.42 for 42%% faster)"
-    )
-    parser.add_argument(
-        "--target-frames",
-        type=int,
-        help="Target number of frames"
-    )
+    parser.add_argument("--speed-factor", type=float, help="Speed factor (e.g., 1.42 for 42%% faster)")
+    parser.add_argument("--target-frames", type=int, help="Target number of frames")
     args = parser.parse_args()
 
     # Load the skill
@@ -151,7 +143,7 @@ def main() -> None:
 
     # Original trajectory
     plt.subplot(1, 2, 1)
-    plt.plot(original_times, original_trajectory, 'b-', label='Original')
+    plt.plot(original_times, original_trajectory, "b-", label="Original")
     plt.title("Original Frames")
     plt.xlabel("Time (s)")
     plt.ylabel(f"{joint_name} Angle")
@@ -159,7 +151,7 @@ def main() -> None:
 
     # Resampled trajectory
     plt.subplot(1, 2, 2)
-    plt.plot(resampled_times, resampled_trajectory, 'r-', label='Resampled')
+    plt.plot(resampled_times, resampled_trajectory, "r-", label="Resampled")
     plt.title("Resampled Frames")
     plt.xlabel("Time (s)")
     plt.ylabel(f"{joint_name} Angle")

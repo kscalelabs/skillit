@@ -11,6 +11,7 @@ class Frame:
     Attributes:
         joint_positions: A dictionary mapping joint names to their positions.
     """
+
     joint_positions: dict[str, float] = field(default_factory=dict)
 
     def as_actuator_positions(self, joint_name_to_id: dict[str, int]) -> dict[int, float]:
@@ -23,7 +24,7 @@ class Frame:
             Dictionary mapping actuator IDs to their positions
         """
         return {
-            joint_name_to_id[name]: position 
+            joint_name_to_id[name]: position
             for name, position in self.joint_positions.items()
             if name in joint_name_to_id
         }
@@ -40,6 +41,7 @@ class SkillData:
         joint_name_to_id: Mapping from joint names to actuator IDs.
         frames: List of frames containing joint positions.
     """
+
     frequency: float
     countdown: int
     timestamp: str
@@ -65,7 +67,7 @@ class SkillData:
             "countdown": self.countdown,
             "timestamp": self.timestamp,
             "joint_name_to_id": self.joint_name_to_id,
-            "frames": [frame.joint_positions for frame in self.frames]
+            "frames": [frame.joint_positions for frame in self.frames],
         }
 
         with open(filename, "w") as f:
@@ -91,7 +93,7 @@ def load_skill(filename: str) -> SkillData:
         countdown=int(data["countdown"]),
         timestamp=str(data["timestamp"]),
         joint_name_to_id=data["joint_name_to_id"],
-        frames=frames
+        frames=frames,
     )
 
     return skill_data

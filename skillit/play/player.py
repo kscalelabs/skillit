@@ -40,9 +40,6 @@ class FramePlayer:
                     joint_name = joint_name_map[joint_name]
 
                 if joint_name in self.joint_name_to_id:
-                    commands.append({
-                        "actuator_id": self.joint_name_to_id[joint_name],
-                        "position": position
-                    })
+                    commands.append({"actuator_id": self.joint_name_to_id[joint_name], "position": position})
             self.ac.command_actuators(commands)
             time.sleep(frame_delay)

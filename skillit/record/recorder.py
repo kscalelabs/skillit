@@ -69,10 +69,7 @@ class SkillRecorder:
 
         joint_positions = {}
         for state in states_obj.states:
-            joint_name = next(
-                name for name, id in self.joint_name_to_id.items()
-                if id == state.actuator_id
-            )
+            joint_name = next(name for name, id in self.joint_name_to_id.items() if id == state.actuator_id)
             joint_positions[joint_name] = state.position
 
         return Frame(joint_positions=joint_positions)
@@ -101,7 +98,7 @@ class SkillRecorder:
             countdown=self.countdown,
             timestamp=datetime.now().isoformat(),
             joint_name_to_id=self.joint_name_to_id,
-            frames=self.frames
+            frames=self.frames,
         )
 
         # Save to file
