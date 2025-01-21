@@ -120,9 +120,10 @@ class SkillRecorder:
         try:
             while True:
                 if self.recording:
+                    process_start = time.time()
                     frame = self.record_frame()
                     self.frames.append(frame)
-                    time.sleep(self.frame_delay)
+                    time.sleep(max(0, self.frame_delay - (time.time() - process_start)))
                 else:
                     time.sleep(0.1)
         finally:

@@ -33,6 +33,7 @@ class FramePlayer:
         time.sleep(1)
 
         for frame in skill_data.frames:
+            process_start = time.time()
             commands: list[pykos.services.actuator.ActuatorCommand] = []
             for joint_name, position in frame.joint_positions.items():
                 # Map joint name if provided
@@ -42,4 +43,4 @@ class FramePlayer:
                 if joint_name in self.joint_name_to_id:
                     commands.append({"actuator_id": self.joint_name_to_id[joint_name], "position": position})
             self.ac.command_actuators(commands)
-            time.sleep(frame_delay)
+            time.sleep(max(0, frame_delay - (time.time() - process_start)))
