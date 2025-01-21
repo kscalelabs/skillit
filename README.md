@@ -1,5 +1,10 @@
 # skillit
 
+<p align="center">
+  <img src="./docs/skillet.jpeg" alt="skillet" width="400"/>
+</p>
+
+
 A package that lets you chef up new skills for KOS-compatible robots
 
 > ⚠️ **Warning**  
