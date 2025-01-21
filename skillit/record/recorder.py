@@ -1,14 +1,14 @@
 """Recorder for recording and replaying skills."""
 
-import json
 import signal
 import sys
 import time
 from datetime import datetime
 from types import FrameType
-from typing import Any
 
 import pykos
+
+from skillit.tools.skills import Frame, SkillData
 
 
 class SkillRecorder:
@@ -32,22 +32,13 @@ class SkillRecorder:
         self.kos = pykos.KOS(ip=ip)
         self.ac = self.kos.actuator
         self.joint_name_to_id = joint_name_to_id
-        self.frames: list[dict[str, float]] = []
+        self.frames: list[Frame] = []
         self.recording = False
         self.frequency = frequency
         self.frame_delay = 1.0 / frequency
         self.countdown = countdown
         self.skill_name = skill_name
         self.setup_signal_handler()
-
-        # Store metadata
-        self.metadata: dict[str, Any] = {
-            "frequency": frequency,
-            "countdown": countdown,
-            "timestamp": None,
-            "joint_name_to_id": joint_name_to_id,
-            "frames": [],
-        }
 
     def setup_signal_handler(self) -> None:
         signal.signal(signal.SIGINT, self.handle_sigint)
@@ -70,38 +61,56 @@ class SkillRecorder:
         print("Recording started! Press Ctrl+C to stop.")
         self.recording = True
         self.frames = []
-        self.metadata["timestamp"] = datetime.now().isoformat()
 
-    def record_frame(self) -> dict[str, float]:
+    def record_frame(self) -> Frame:
+        """Record a single frame of joint positions."""
         joint_ids = list(self.joint_name_to_id.values())
         states_obj = self.ac.get_actuators_state(joint_ids)
 
-        frame = {}
+        joint_positions = {}
         for state in states_obj.states:
-            joint_name = next(name for name, id in self.joint_name_to_id.items() if id == state.actuator_id)
-            frame[joint_name] = state.position
+            joint_name = next(
+                name for name, id in self.joint_name_to_id.items()
+                if id == state.actuator_id
+            )
+            joint_positions[joint_name] = state.position
 
-        return frame
+        return Frame(joint_positions=joint_positions)
 
     def save_frames(self, output_dir: str = ".") -> str:
+        """Save recorded frames to a JSON file.
+
+        Args:
+            output_dir: Directory where to save the file
+
+        Returns:
+            Path to the saved file
+        """
         if not self.frames:
             print("No frames recorded!")
             return ""
-
-        # Update metadata
-        self.metadata["frames"] = self.frames
 
         # Generate filename
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         name_part = f"_{self.skill_name}" if self.skill_name else ""
         filename = f"{output_dir}/skill{name_part}_{timestamp}.json"
 
-        with open(filename, "w") as f:
-            json.dump(self.metadata, f, indent=2)
+        # Create skill data
+        skill_data = SkillData(
+            frequency=self.frequency,
+            countdown=self.countdown,
+            timestamp=datetime.now().isoformat(),
+            joint_name_to_id=self.joint_name_to_id,
+            frames=self.frames
+        )
+
+        # Save to file
+        skill_data.save(filename)
         print(f"Saved {len(self.frames)} frames to {filename}")
         return filename
 
     def record(self) -> None:
+        """Start the recording session."""
         print("Disabling torque to allow manual positioning...")
         for joint_id in self.joint_name_to_id.values():
             self.ac.configure_actuator(actuator_id=joint_id, torque_enabled=False)

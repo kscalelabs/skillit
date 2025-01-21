@@ -1,10 +1,10 @@
 """Player for replaying recorded skills."""
 
-import json
 import time
-from typing import Any
 
 import pykos
+
+from skillit.tools.skills import load_skill
 
 
 class FramePlayer:
@@ -19,18 +19,6 @@ class FramePlayer:
         self.ac = self.kos.actuator
         self.joint_name_to_id = joint_name_to_id
 
-    def load_skill(self, filename: str) -> dict[str, Any]:
-        """Load a skill from a JSON file.
-
-        Args:
-            filename: Path to the recorded JSON file
-
-        Returns:
-            The loaded skill data
-        """
-        with open(filename, "r") as f:
-            return json.load(f)
-
     def play(self, filename: str, joint_name_map: dict[str, str] | None = None) -> None:
         """Replay recorded frames.
 
@@ -38,23 +26,23 @@ class FramePlayer:
             filename: Path to the recorded JSON file
             joint_name_map: Optional mapping to rename joints (e.g., {"old_name": "new_name"})
         """
-        data = self.load_skill(filename)
+        skill_data = load_skill(filename)
+        frame_delay = 1.0 / skill_data.frequency
 
-        frames = data["frames"]
-        frequency = data.get("frequency", 20)
-        frame_delay = 1.0 / frequency
-
-        print(f"Playing {len(frames)} frames at {frequency}Hz...")
+        print(f"Playing {len(skill_data.frames)} frames at {skill_data.frequency}Hz...")
         time.sleep(1)
 
-        for frame in frames:
-            commands = []
-            for joint_name, position in frame.items():
+        for frame in skill_data.frames:
+            commands: list[pykos.services.actuator.ActuatorCommand] = []
+            for joint_name, position in frame.joint_positions.items():
                 # Map joint name if provided
                 if joint_name_map and joint_name in joint_name_map:
                     joint_name = joint_name_map[joint_name]
 
                 if joint_name in self.joint_name_to_id:
-                    commands.append({"actuator_id": self.joint_name_to_id[joint_name], "position": position})
+                    commands.append({
+                        "actuator_id": self.joint_name_to_id[joint_name],
+                        "position": position
+                    })
             self.ac.command_actuators(commands)
             time.sleep(frame_delay)
