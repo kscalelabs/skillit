@@ -16,7 +16,7 @@ class SkillRecorder:
         self,
         ip: str,
         joint_name_to_id: dict[str, int],
-        frequency: int = 20,
+        frequency: int = 50,
         countdown: int = 3,
         skill_name: str | None = None,
     ) -> None:
@@ -25,10 +25,14 @@ class SkillRecorder:
         Args:
             ip: IP address or hostname of the robot
             joint_name_to_id: Dictionary mapping joint names to their IDs
-            frequency: Recording frequency in Hz
+            frequency: Recording frequency in Hz (can be increased up to 1000Hz)
             countdown: Countdown delay in seconds before recording starts
             skill_name: Optional name for the recorded skill
         """
+        if frequency > 1000:
+            raise ValueError("Frequency cannot exceed 1000Hz")
+        if frequency < 1:
+            raise ValueError("Frequency must be at least 1Hz")
         self.kos = pykos.KOS(ip=ip)
         self.ac = self.kos.actuator
         self.joint_name_to_id = joint_name_to_id
@@ -112,11 +116,17 @@ class SkillRecorder:
         print(f"Recording frequency: {self.frequency}Hz")
 
         try:
+            last_frame_time = time.time()
             while True:
                 if self.recording:
-                    frame = self.record_frame()
-                    self.frames.append(frame)
-                    time.sleep(self.frame_delay)
+                    current_time = time.time()
+                    # Only record if enough time has passed since last frame
+                    if current_time - last_frame_time >= self.frame_delay:
+                        frame = self.record_frame()
+                        self.frames.append(frame)
+                        last_frame_time = current_time
+                    # Sleep for a very short time to prevent CPU overload
+                    time.sleep(0.001)
                 else:
                     time.sleep(0.1)
         finally:

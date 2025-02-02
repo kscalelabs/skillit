@@ -39,9 +39,8 @@ class FramePlayer:
             joint_name_map: Optional mapping to rename joints (e.g., {"old_name": "new_name"})
         """
         data = self.load_skill(filename)
-
         frames = data["frames"]
-        frequency = data.get("frequency", 20)
+        frequency = data.get("frequency", 50)
         frame_delay = 1.0 / frequency
 
         print(f"Playing {len(frames)} frames at {frequency}Hz...")
